@@ -37,6 +37,7 @@ func encode(encCtx *avcodec.Context, frame *avutil.Frame, pkt *avcodec.Packet, o
 			fmt.Fprintf(os.Stderr, "Error during encoding\n")
 			os.Exit(1)
 		}
+		// TODO Write without extra memory allocations
 		data := C.GoBytes(unsafe.Pointer(pkt.Data()), C.int(pkt.Size()))
 		_, err := output.Write(data)
 		if err != nil {
@@ -146,6 +147,7 @@ func main() {
 			}
 		}
 
+		/* Cb and Cr */
 		for y = 0; y < uint8(c.Height())/2; y++ {
 			for x = 0; x < uint8(c.Width())/2; x++ {
 				v = 128 + y + i*2
@@ -156,7 +158,6 @@ func main() {
 		}
 		frame.Pts = int64(i)
 
-		/* Cb and Cr */
 		encode(c, frame, pkt, file)
 	}
 
