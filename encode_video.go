@@ -1,6 +1,6 @@
 /*
- * Ported from C version of
- * https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/encode_video.c
+* Ported from C version of
+* https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/encode_video.c
  */
 package main
 
@@ -8,11 +8,12 @@ import "C"
 
 import (
 	"fmt"
-	"github.com/koropets/goav/avcodec"
-	"github.com/koropets/goav/avutil"
 	"io"
 	"os"
 	"unsafe"
+
+	"github.com/koropets/goav/avcodec"
+	"github.com/koropets/goav/avutil"
 )
 
 var endcode = []byte{0, 0, 1, 0xb7}
@@ -116,7 +117,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Could not allocate video frame\n")
 		os.Exit(1)
 	}
-	frame.SetFormat(avutil.PixelFormat(c.PixFmt()))
+	frame.SetFormat(int(c.PixFmt()))
 	frame.SetWidth(c.Width())
 	frame.SetHeight(c.Height())
 
